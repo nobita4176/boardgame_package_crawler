@@ -20,7 +20,8 @@ package object scraper {
     url match {
       case Filename(file) => {
         val ext = """\.\w+$""".r.findFirstIn(file).getOrElse(".jpg")
-        Resource.fromFile(new java.io.File("data", name + ext)).write(data)
+        val filename = name.replaceAll("[<>\"|\t\n\f\r:*?\\/]", "_") + ext
+        Resource.fromFile(new java.io.File("data", filename)).write(data)
         println(name + " done.")
       }
       case _ => sys.error("Oops!")
